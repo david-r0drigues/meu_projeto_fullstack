@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Usuários</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Gerenciador de Usuários</h1>
+
+    <div class="container">
+        <form id="user-form">
+            <h2 id="form-title">Cadastrar Usuário</h2>
+            <input type="hidden" id="user-id">
+            
+            <input type="text" id="nome" placeholder="Nome Completo" required>
+            <input type="email" id="email" placeholder="E-mail" required>
+            <input type="password" id="senha" placeholder="Senha (obrigatória no cadastro)">
+            <input type="tel" id="telefone" placeholder="Telefone">
+            <label id="dt-nascimento"for="data-nascimento">Data de Nascimento: <input  type="date" id="data-nascimento"></label>
+
+            <label for="endereco"></label>
+            <textarea id="endereco" placeholder="Endereço Completo" rows="3"></textarea>
+            
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    <div class="user-list">
+            <h2>Usuários Cadastrados</h2>
+            <table id="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Nascimento</th>
+                        <th>Endereço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                </tbody>
+            </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
