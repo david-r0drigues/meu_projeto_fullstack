@@ -1,7 +1,7 @@
-// index.js
-import { PrismaClient } from './generated/prisma/index.js'; // <-- Linha alterada
+// index.js (versão final)
 import express from 'express';
 import cors from 'cors';
+import { PrismaClient } from './generated/prisma/index.js';
 import bcrypt from 'bcryptjs';
 
 const app = express();
@@ -9,6 +9,12 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
+
+// Rota de teste "ping" (pode remover se quiser, não é mais necessária)
+app.get('/ping', (req, res) => {
+  console.log(">>> RECEBI UM PING!");
+  res.status(200).json({ message: 'pong' });
+});
 
 // ROTA PARA CRIAR UM NOVO USUÁRIO
 app.post('/usuarios', async (req, res) => {
@@ -18,16 +24,14 @@ app.post('/usuarios', async (req, res) => {
         
         const newUser = await prisma.user.create({
             data: {
-                nome_completo,
-                email,
-                senha: senha_hash,
-                telefone,
+                nome_completo, email, senha: senha_hash, telefone,
                 data_nascimento: data_nascimento ? new Date(data_nascimento) : null,
                 endereco,
             },
         });
         res.status(201).json(newUser);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao criar usuário.' });
     }
 });
@@ -41,6 +45,7 @@ app.get('/usuarios', async (req, res) => {
         });
         res.status(200).json(users);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao buscar usuários.' });
     }
 });
@@ -56,6 +61,7 @@ app.get('/usuarios/:id', async (req, res) => {
         if (!user) return res.status(404).json({ error: 'Usuário não encontrado.' });
         res.status(200).json(user);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao buscar usuário.' });
     }
 });
@@ -69,15 +75,14 @@ app.put('/usuarios/:id', async (req, res) => {
         const updatedUser = await prisma.user.update({
             where: { id: parseInt(id) },
             data: {
-                nome_completo,
-                email,
-                telefone,
+                nome_completo, email, telefone,
                 data_nascimento: data_nascimento ? new Date(data_nascimento) : null,
                 endereco,
             },
         });
         res.status(200).json(updatedUser);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao atualizar usuário.' });
     }
 });
@@ -91,6 +96,7 @@ app.delete('/usuarios/:id', async (req, res) => {
         });
         res.status(200).json({ message: 'Usuário deletado com sucesso.' });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao deletar usuário.' });
     }
 });
